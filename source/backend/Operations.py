@@ -1,5 +1,6 @@
 import numpy as np
 import config
+import cv2
 import logging
 logging.basicConfig(level=config.logging_level, format='%(levelname)s - %(message)s')
 
@@ -15,6 +16,7 @@ class Operations:
         logging.info('apply filter function')
         filter = self.create_filter(parameters)
 
+        image = cv2.imread(parameters['image_path'])
         dft = np.fft.fft2(parameters)
 
         # Needs to be completed
