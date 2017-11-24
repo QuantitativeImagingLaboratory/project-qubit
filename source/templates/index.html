@@ -2,17 +2,23 @@
 <html lang="en">
     <head>
         <title>Qubit - Image Restoration</title>
+        <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
+        <link rel=stylesheet type=text/css href="{{ url_for('static', filename='bootstrap.min.css') }}">
+        <link rel=stylesheet type=text/css href="{{ url_for('static', filename='bootstrap.min.js') }}">
+        <link rel=stylesheet type=text/css href="{{ url_for('static', filename='popper.min.js') }}">
+        <link rel=stylesheet type=text/css href="{{ url_for('static', filename='jquery.min.js') }}">
     </head>
     <body>
+        <br />
         <h1>Qubit Team</h1>
         <hr/>
-        <h3 class="center">Image Restoration</h3>
+        <h2 class="center">Image Restoration</h2>
         <table class="table-main" border="0">
             <tbody>
                 <tr class='center'>
-                    <td>Original Image</td>
+                    <td><h5>Original Image</h5></td>
                     <td></td>
-                    <td>Filtered Image</td>
+                    <td><h5>Filtered Image</h5></td>
                 </tr>
                 <tr>
                     <td><img src="https://upload.wikimedia.org/wikipedia/en/2/24/Lenna.png" width="100%"></td>
@@ -25,14 +31,14 @@
                     <td><button type="button" class="btn btn-primary">Apply</button></td>
                 </tr>
                 <tr>
-                    <td><div>Select filter:</div></td>
+                    <td><h3>Select filter:</h3></td>
                     <td></td>
-                    <td><div>Display options:</div></td>
+                    <td><h3>Display options:</h3></td>
                 </tr>
                 <tr>
                     <td>
                         <div>
-                            <table class="right">
+                            <table class="tab">
                                 <tr>
                                     <td>
                                         <input type="radio" id="bandreject" name="filterchoice" value="bandreject">
@@ -89,8 +95,8 @@
                         </div>
                     </td>
                     <td></td>
-                    <td>
-                        <div>
+                    <td valign="top">
+                        <div class="tab">
                             <input type="radio" id="filtered" name="displaychoice" value="filtered">
                             <label for="filtered">Filtered Image</label><br>
 
