@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Qubit - Image Restoration</title>
+    </head>
+    <body>
+        <h1>Qubit Team</h1>
+        <hr/>
+        <h3 class="center">Image Restoration</h3>
+        <table class="table-main" border="0">
+            <tbody>
+                <tr class='center'>
+                    <td>Original Image</td>
+                    <td></td>
+                    <td>Filtered Image</td>
+                </tr>
+                <tr>
+                    <td><img src="https://upload.wikimedia.org/wikipedia/en/2/24/Lenna.png" width="100%"></td>
+                    <td></td>
+                    <td><img src="https://upload.wikimedia.org/wikipedia/en/2/24/Lenna.png" width="100%"></td>
+                </tr>
+                <tr class='right'>
+                    <td><button type="file" class="btn btn-primary">Browse</button></td>
+                    <td></td>
+                    <td><button type="button" class="btn btn-primary">Apply</button></td>
+                </tr>
+                <tr>
+                    <td><div>Select filter:</div></td>
+                    <td></td>
+                    <td><div>Display options:</div></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div>
+                            <table class="right">
+                                <tr>
+                                    <td>
+                                        <input type="radio" id="bandreject" name="filterchoice" value="bandreject">
+                                        <label for="bandreject">Bandreject</label>
+                                    </td>
+                                    <td>
+                                        <select class='right'>
+                                            <option value="gaussian">gaussian</option>
+                                            <option value="gaussian">gaussian</option>
+                                        </select>
+                                    </td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td><label for="thickness">Thickness</label></td>
+                                    <td><input type="number" id="thickness" name="thickness" min="1" max="5"></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td><label for="radius">Radius</label></td>
+                                    <td><input type="number" id="radius" name="radius" min="1" max="5"></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input type="radio" id="notch" name="filterchoice" value="notch">
+                                        <label for="notch">Notch</label>
+                                    </td>
+                                    <td>
+                                        <select class='right'>
+                                            <option value="ideal">ideal</option>
+                                            <option value="ideal">ideal</option>
+                                        </select>
+                                    </td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input type="radio" id="invfilter" name="filterchoice" value="invfilter">
+                                        <label for="invfilter">Inverse Filter</label>
+                                    </td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input type="radio" id="wiener" name="filterchoice" value="wiener">
+                                        <label for="wiener">Wiener</label>
+                                    </td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </td>
+                    <td></td>
+                    <td>
+                        <div>
+                            <input type="radio" id="filtered" name="displaychoice" value="filtered">
+                            <label for="filtered">Filtered Image</label><br>
+
+                            <input type="radio" id="dft" name="displaychoice" value="dft">
+                            <label for="dft">DFT</label><br>
+
+                            <input type="radio" id="mask" name="displaychoice" value="mask">
+                            <label for="mask">Mask</label><br>
+
+                            <input type="radio" id="histogram" name="displaychoice" value="histogram">
+                            <label for="histogram">Histogram</label><br>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <hr />
+    </body>
+</html>

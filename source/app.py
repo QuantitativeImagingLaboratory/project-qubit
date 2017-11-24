@@ -5,13 +5,14 @@ from backend.Operations import Operations
 logging.basicConfig(level=config.logging_level, format='%(levelname)s - %(message)s')
 
 from flask import Flask
+from flask import render_template
+
 app = Flask(__name__)
 
 
 @app.route("/")
 def main():
-    return "Image Restoration Project"
-
+    return render_template('index.html')
 
 def process_image():
     op = Operations()
@@ -24,5 +25,5 @@ def process_image():
 
 
 if __name__ == "__main__":
-    # app.run()
-    process_image()
+    app.run()
+    # process_image()
