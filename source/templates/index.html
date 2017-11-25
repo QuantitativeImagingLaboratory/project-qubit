@@ -3,13 +3,12 @@
     <head>
         <title>Qubit - Image Restoration</title>
         <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
-        <link rel=stylesheet type=text/css href="{{ url_for('static', filename='bootstrap.min.css') }}">
-        <link rel=stylesheet type=text/css href="{{ url_for('static', filename='bootstrap.min.js') }}">
-        <link rel=stylesheet type=text/css href="{{ url_for('static', filename='popper.min.js') }}">
-        <link rel=stylesheet type=text/css href="{{ url_for('static', filename='jquery.min.js') }}">
+        <link rel=stylesheet type=text/css href="https://bootswatch.com/4/simplex/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <script src="https://bootswatch.com/_vendor/bootstrap/dist/js/bootstrap.min.js"></script>
+        <script src="https://bootswatch.com/_vendor/popper.js/dist/umd/popper.min.js"></script>
     </head>
-    <body>
-        <br />
+    <body class="page">
         <h1>Qubit Team</h1>
         <hr/>
         <h2 class="center">Image Restoration</h2>
@@ -21,12 +20,26 @@
                     <td><h5>Filtered Image</h5></td>
                 </tr>
                 <tr>
-                    <td><img src="https://upload.wikimedia.org/wikipedia/en/2/24/Lenna.png" width="100%"></td>
-                    <td></td>
-                    <td><img src="https://upload.wikimedia.org/wikipedia/en/2/24/Lenna.png" width="100%"></td>
+                    <td width="45%">
+                        <!--Fill with image template-->
+                        <div id="source_img"></div>
+                    </td>
+                    <td width="10%"></td>
+                    <td width="45%%">
+                        <!--Fill with image template-->
+                        <div id="target_img"></div>
+                    </td>
                 </tr>
+
                 <tr class='right'>
-                    <td><button type="file" class="btn btn-primary">Browse</button></td>
+                    <td>
+                        <form id="browse_form" enctype="multipart/form-data">
+                            <spa>
+                                <input type="file" name="image">
+                                <input id="submit_upload" type=button class="btn btn-primary" value=Upload>
+                            </spa>
+                        </form>
+                    </td>
                     <td></td>
                     <td><button type="button" class="btn btn-primary">Apply</button></td>
                 </tr>
@@ -37,78 +50,13 @@
                 </tr>
                 <tr>
                     <td>
-                        <div>
-                            <table class="tab">
-                                <tr>
-                                    <td>
-                                        <input type="radio" id="bandreject" name="filterchoice" value="bandreject">
-                                        <label for="bandreject">Bandreject</label>
-                                    </td>
-                                    <td>
-                                        <select class='right'>
-                                            <option value="gaussian">gaussian</option>
-                                            <option value="gaussian">gaussian</option>
-                                        </select>
-                                    </td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td><label for="thickness">Thickness</label></td>
-                                    <td><input type="number" id="thickness" name="thickness" min="1" max="5"></td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td><label for="radius">Radius</label></td>
-                                    <td><input type="number" id="radius" name="radius" min="1" max="5"></td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <input type="radio" id="notch" name="filterchoice" value="notch">
-                                        <label for="notch">Notch</label>
-                                    </td>
-                                    <td>
-                                        <select class='right'>
-                                            <option value="ideal">ideal</option>
-                                            <option value="ideal">ideal</option>
-                                        </select>
-                                    </td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <input type="radio" id="invfilter" name="filterchoice" value="invfilter">
-                                        <label for="invfilter">Inverse Filter</label>
-                                    </td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <input type="radio" id="wiener" name="filterchoice" value="wiener">
-                                        <label for="wiener">Wiener</label>
-                                    </td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                            </table>
-                        </div>
+                        <!--Static template for filter settings-->
+                        <div id="filter_wrapper"></div>
                     </td>
                     <td></td>
                     <td valign="top">
-                        <div class="tab">
-                            <input type="radio" id="filtered" name="displaychoice" value="filtered">
-                            <label for="filtered">Filtered Image</label><br>
-
-                            <input type="radio" id="dft" name="displaychoice" value="dft">
-                            <label for="dft">DFT</label><br>
-
-                            <input type="radio" id="mask" name="displaychoice" value="mask">
-                            <label for="mask">Mask</label><br>
-
-                            <input type="radio" id="histogram" name="displaychoice" value="histogram">
-                            <label for="histogram">Histogram</label><br>
-                        </div>
+                        <!--Static template for display options-->
+                        <div id="display_wrapper" class="tab"></div>
                     </td>
                 </tr>
             </tbody>
@@ -116,3 +64,24 @@
         <hr />
     </body>
 </html>
+
+<script>
+    $("#filter_wrapper").load('static/filter.html');
+    $("#display_wrapper").load('static/display.html');
+
+    $("#submit_upload").click(function(){
+        $.ajax({
+            type: "POST",
+            url: "/upload",
+            data: new FormData($('#browse_form')[0]),
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                $("#source_img").html(response);
+            },
+            error: function(xhr) {
+                alert("You didn't select an image!");
+            }
+        });
+    });
+</script>

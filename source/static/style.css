@@ -20,3 +20,18 @@
 .tab{
     margin-left: 10%;
 }
+
+.page {
+    padding-left: 10%;
+    padding-right: 10%;
+    padding-top: 25px;
+    padding-bottom: 30px;
+}
+
+#source_img, #target_img{
+    min-height: 70px;
+}
+
+img{
+    width:100%;
+}
