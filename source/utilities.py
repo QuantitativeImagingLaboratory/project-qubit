@@ -23,10 +23,16 @@ def estimate_params(image_matrix):
     # plt.bar(bins[:-1], hist)
     # plt.show()
 
+    # print(hist)
 
-    return np.mean(bins), np.var(bins)
+    return np.mean(hist), np.var(hist)
 
 
-img2 = cv2.imread('data/pattern1_gn.tif', 0)
+img2 = cv2.imread('data/board_gaussian.tif', 0)
 mean, variance = estimate_params(img2)
+print(mean, variance)
+
+img2 = cv2.imread('data/board_pepper.tifgit', 0)
+mean, variance = estimate_params(img2)
+print(mean, variance)
 
