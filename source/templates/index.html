@@ -36,12 +36,14 @@
                         <form id="browse_form" enctype="multipart/form-data">
                             <spa>
                                 <input type="file" name="image">
-                                <input id="submit_upload" type=button class="btn btn-primary" value=Upload>
+                                <input id="upload_btn" type=button class="btn btn-primary" value=Upload>
                             </spa>
                         </form>
                     </td>
                     <td></td>
-                    <td><button type="button" class="btn btn-primary">Apply</button></td>
+                    <td>
+                        <input id="apply_btn" type="button" class="btn btn-primary" value="Apply">
+                    </td>
                 </tr>
                 <tr>
                     <td><h3>Select filter:</h3></td>
@@ -69,7 +71,7 @@
     $("#filter_wrapper").load('static/filter.html');
     $("#display_wrapper").load('static/display.html');
 
-    $("#submit_upload").click(function(){
+    $("#upload_btn").click(function(){
         $.ajax({
             type: "POST",
             url: "/upload",
@@ -84,4 +86,65 @@
             }
         });
     });
+
+    $("#apply_btn").click(function () {
+        // data structure
+        var data = {
+            'filter': null,
+            'filter_settings': null,
+            'display': null
+        };
+
+        // Filter settings
+        data['filter'] = $("input[name='filterchoice']:checked").val();
+        switch(data['filter'])
+        {
+            case "bandreject":
+                var filterType = $('#bandreject_type').val();
+                var thickness = $('#thickness').val();
+                var radius = $('#radius').val();
+                var settings = {
+                    'type': filterType,
+                    'thickness':thickness,
+                    'radius': radius
+                };
+                data['filter_settings'] = settings;
+                break;
+
+            case "notch":
+                var filterType = $('#notch_type').val();
+                var settings = { 'type': filterType };
+                data['filter_settings'] = settings;
+                break;
+            default:
+                data['filter_settings'] = {};
+        };
+
+        // Display options
+        data['display'] = $("input[name='displaychoice']:checked").val();
+
+        // Debug alert
+        alert(JSON.stringify(data, null, '\t'));
+
+        // Ajax request
+        $.ajax({
+            type: "POST",
+            url: "/apply",
+            data: JSON.stringify(data, null, '\t'),
+            contentType: 'application/json;charset=UTF-8',
+            success: function(response) {
+                $("#target_img").html(response);
+            },
+            error: function(xhr) {
+                alert("Something went wrong!");
+            }
+        });
+    });
 </script>
+
+
+
+
+
+
+
