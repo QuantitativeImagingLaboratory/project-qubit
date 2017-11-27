@@ -28,11 +28,11 @@ def estimate_params(image_matrix):
     return np.mean(hist), np.var(hist)
 
 
-img2 = cv2.imread('data/board_gaussian.tif', 0)
-mean, variance = estimate_params(img2)
-print(mean, variance)
-
-img2 = cv2.imread('data/board_pepper.tifgit', 0)
-mean, variance = estimate_params(img2)
-print(mean, variance)
+# img2 = cv2.imread('data/board_gaussian.tif', 0)
+# mean, variance = estimate_params(img2)
+# print(mean, variance)
+#
+# img2 = cv2.imread('data/board_pepper.tifgit', 0)
+# mean, variance = estimate_params(img2)
+# print(mean, variance)
 
