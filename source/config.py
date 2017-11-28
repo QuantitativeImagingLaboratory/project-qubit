@@ -18,4 +18,4 @@ DATA_PATH = ROOT_DIR + 'source/data/'
 ############################################################
 ## Extensions
 
-ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', '.tif'}
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'tif'}

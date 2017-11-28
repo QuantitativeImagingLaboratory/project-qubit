@@ -28,6 +28,12 @@
     padding-bottom: 30px;
 }
 
+.spaced{
+    padding: 20px;
+    margin: 20px;
+}
+
+
 #source_img, #target_img{
     min-height: 70px;
 }

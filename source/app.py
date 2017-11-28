@@ -76,5 +76,5 @@ def process_image():
 
 
 if __name__ == "__main__":
-    app.run(port=4321, debug=True)
+    app.run(port=6109, debug=True)
     # process_image()

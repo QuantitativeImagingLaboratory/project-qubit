@@ -3,73 +3,108 @@
     <head>
         <title>Qubit - Image Restoration</title>
         <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
-        <link rel=stylesheet type=text/css href="https://bootswatch.com/4/simplex/bootstrap.min.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-        <script src="https://bootswatch.com/_vendor/bootstrap/dist/js/bootstrap.min.js"></script>
-        <script src="https://bootswatch.com/_vendor/popper.js/dist/umd/popper.min.js"></script>
+        <link rel=stylesheet type=text/css href="{{ url_for('static', filename='bootstrap.min.css') }}">
+        <script src="{{ url_for('static', filename='jquery.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='popper.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='bootstrap.min.js') }}"></script>
     </head>
     <body class="page">
         <h1>Qubit Team</h1>
         <hr/>
         <h2 class="center">Image Restoration</h2>
+
+
         <table class="table-main" border="0">
             <tbody>
+
+                <!-- Image Headers -->
                 <tr class='center'>
                     <td><h5>Original Image</h5></td>
                     <td></td>
                     <td><h5>Filtered Image</h5></td>
                 </tr>
+
+                <!-- Image showcase -->
                 <tr>
                     <td width="45%">
                         <!--Fill with image template-->
                         <div id="source_img"></div>
                     </td>
                     <td width="10%"></td>
-                    <td width="45%%">
+                    <td width="45%">
                         <!--Fill with image template-->
                         <div id="target_img"></div>
                     </td>
                 </tr>
 
+                <!--Upload and Apply buttons-->
                 <tr class='right'>
                     <td>
                         <form id="browse_form" enctype="multipart/form-data">
                             <spa>
                                 <input type="file" name="image">
-                                <input id="upload_btn" type=button class="btn btn-primary" value=Upload>
+                                <input id="upload_btn" type=button class="btn btn-primary" value="Upload">
                             </spa>
                         </form>
                     </td>
                     <td></td>
                     <td>
+                        <!--Fill with display options template-->
+                        <div id="display_wrapper" class="tab top"></div>
                         <input id="apply_btn" type="button" class="btn btn-primary" value="Apply">
                     </td>
                 </tr>
+
+                <!-- Tabular settings -->
                 <tr>
-                    <td><h3>Select filter:</h3></td>
-                    <td></td>
-                    <td><h3>Display options:</h3></td>
-                </tr>
-                <tr>
-                    <td>
-                        <!--Static template for filter settings-->
-                        <div id="filter_wrapper"></div>
+                    <td colspan="3">
+
+                        <!-- Tab headers-->
+                        <ul class="nav nav-tabs">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab" href="#statistical">Statistical</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#periodic">Periodic</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#noise">Generate Noise</a>
+                            </li>
+                        </ul>
+
+                        <!-- Tab content using wrappers -->
+                        <div id="tab-content" class="tab-content">
+
+                            <!--Statistical content-->
+                            <div class="tab-pane fade in active show" id="statistical">
+                                <div id="statistical-wrapper"></div>
+                            </div>
+
+                            <!-- Periodic content-->
+                            <div class="tab-pane fade" id="periodic">
+                                <div id="periodic-wrapper"></div>
+                            </div>
+
+                            <!-- Generative Noise content -->
+                            <div class="tab-pane fade" id="noise">
+                                <div id="noise-wrapper"></div>
+                            </div>
+                        </div>
                     </td>
-                    <td></td>
-                    <td valign="top">
-                        <!--Static template for display options-->
-                        <div id="display_wrapper" class="tab"></div>
-                    </td>
                 </tr>
+
             </tbody>
         </table>
+
         <hr />
     </body>
 </html>
 
 <script>
-    $("#filter_wrapper").load('static/filter.html');
     $("#display_wrapper").load('static/display.html');
+    $("#statistical-wrapper").load('static/statistical.html');
+    $("#periodic-wrapper").load('static/periodic.html');
+    $("#noise-wrapper").load('static/noise.html');
 
     $("#upload_btn").click(function(){
         $.ajax({
