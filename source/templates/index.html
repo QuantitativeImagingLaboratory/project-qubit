@@ -134,6 +134,7 @@
 
     $("#apply_btn").click(function ()
     {
+        setLoadingGif();
         var data = {
             'method': null,
             'settings': null,
@@ -255,6 +256,12 @@
 
         return settings;
     };
+
+    var setLoadingGif = function ()
+    {
+        $("#target_img").html("<img src='static/loading.gif' alt='Loading'>");
+    };
+
 </script>
 
 
