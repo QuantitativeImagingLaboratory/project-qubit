@@ -42,4 +42,13 @@ img{
     width:100%;
 }
 
+
+.display_label{
+    font-size: medium;
+    vertical-align: middle;
+    margin-bottom: 0;
+    margin-right: 10%;
+}
+
+
 /*https://bootswatch.com/simplex/?optionsRadios=option1*/

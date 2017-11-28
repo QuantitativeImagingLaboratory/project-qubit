@@ -1,5 +1,45 @@
-<table>
+<table class="spaced">
+
+    <!-- Generative Blur Noise -->
     <tr>
-        <td>Generative noise</td>
+        <td>
+            <input type="radio" id="generative_noise_option" name="noisechoice" value="generative_noise_option" checked="checked">
+            <label for="generative_noise_option">Generative noise</label>
+        </td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td><label for="generative_noise_cutoff">Cutoff</label></td>
+        <td><input type="number" id="generative_noise_cutoff" name="generative_noise_cutoff" min="1" max="10000" value="1"></td>
+    </tr>
+
+
+    <!-- Generative Blur Noise -->
+    <tr>
+        <td>
+            <input type="radio" id="generative_blur_option" name="noisechoice" value="generative_blur_option">
+            <label for="generative_blur_option">Generative blur</label>
+        </td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td><label for="wiener_k">K</label></td>
+        <td><input type="number" id="wiener_k" name="wiener_k" min="1" max="10000" value="1"></td>
+    </tr>
+
+    <!-- Upload noise -->
+    <tr>
+        <td colspan="3">
+            <form id="browse_noise_form" enctype="multipart/form-data">
+                <spa>
+                    <input type="file" name="image">
+                    <input id="upload_noise_btn" type=button class="btn btn-primary" value="Upload">
+                </spa>
+            </form>
+        </td>
     </tr>
 </table>
