@@ -3,13 +3,12 @@ import config
 import logging
 import utilities as webutils
 from backend import PeriodicFilters
-from backend.Filters import Filters
+from backend import Filters
 from backend.Operations import Operations
 logging.basicConfig(level=config.logging_level, format='%(levelname)s - %(message)s')
 import cv2
 from flask import Flask
 from flask import render_template, request, redirect, send_from_directory
-from backend.Filters import Filters
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = config.DATA_PATH
 
@@ -42,23 +41,27 @@ def send_image(filename):
 
 @app.route('/apply', methods=['POST'])
 def apply_filter():
-    output_image = 'Lenna.png'
-    print(request.json)
-    image = cv2.imread(config.UPLOADED_IMAGE_FILE_PATH)
-    params = request.json
-    params['filter_shape'] = image.shape
+    process_image(request.json)
 
-    if request.json['method'] == 'statistical':
-        output_image = handle_statistical(params)
-    elif request.json['method'] == 'periodic':
-        output_image = handle_periodic(params)
-    elif request.json['method'] == 'noise':
-        output_image = handle_noise(params)
-    else:
-        print("TRY AGAIN: NOT METHOD SPECIFY!")
-        return redirect(request.url)
+    # print(request.json)
+    #
+    #
+    #
+    # image = cv2.imread(config.UPLOADED_IMAGE_FILE_PATH)
+    # # params =
+    # # params['filter_shape'] = image.shape
+    #
+    # if request.json['method'] == 'statistical':
+    #     output_image = handle_statistical(params)
+    # elif request.json['method'] == 'periodic':
+    #     output_image = handle_periodic(params)
+    # elif request.json['method'] == 'noise':
+    #     output_image = handle_noise(params)
+    # else:
+    #     print("TRY AGAIN: NOT METHOD SPECIFY!")
+    #     return redirect(request.url)
 
-    return render_template('image.html', source=output_image)
+    return render_template('image.html', source = config.RESULT_IMAGE_FILE_PATH)
 
 
 # TODO move these functions to the backend
@@ -81,12 +84,13 @@ def handle_noise(json):
     return "Lenna.png"
 
 
-def process_image():
+def process_image(json_dict):
     op = Operations()
-    op.apply_filter({'filter_name': Filters.MEAN_ARITHMETIC_FILTER,
-                     'filter_shape': (5, 4),
-                     'high_pass': True
-                     })
+    op.apply_filter(json_dict)
+    # op.apply_filter({'filter_name': Filters.MEAN_ARITHMETIC_FILTER,
+    #                  'filter_shape': (5, 4),
+    #                  'high_pass': True
+    #                  })
 
     return None
 

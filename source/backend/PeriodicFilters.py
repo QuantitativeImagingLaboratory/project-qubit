@@ -84,8 +84,8 @@ def notch_ideal_filter(params, notch_list):
     :return:
     """
     image_shape = params['filter_shape']
-    notch_size = params['notch_size']
-    cutoff = params['cutoff']
+    notch_size = 2 #params['notch_size']
+    cutoff = 4 #params['cutoff']
 
     mask = np.ones(params['filter_shape']) * 255
     rows = image_shape[0]
@@ -110,8 +110,8 @@ def notch_gaussian_filter(params,notch_list):
     :return:
     """
     image_shape = params['filter_shape']
-    notch_size = params['notch_size']
-    cutoff = params['cutoff']
+    notch_size = 2 #params['notch_size']
+    cutoff = 4 #params['cutoff']
 
     mask = np.ones(params['filter_shape']) * 255
     rows = image_shape[0]

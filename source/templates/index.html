@@ -143,6 +143,8 @@
         data['method']  = $("#tab-content > .show").attr('id');
         data['display'] = $($("#display_wrapper option:selected")[0]).val();
 
+        alert(JSON.stringify(data) )
+
         switch(data['method'])
         {
             case 'statistical':
@@ -190,30 +192,42 @@
     {
         var settings = {};
         settings['filter'] = $("input[name='filterchoice']:checked").val();
+        var sub_ftype = "#" + settings['filter'] + "_filter_type"
+        settings['filter_name'] = $(sub_ftype).val();
 
-        switch(settings['filter'])
-        {
-            case "bandreject":
-                settings['bandreject_type'] = $('#bandreject_type').val();
-                settings['bandreject_cutoff'] = $('#bandreject_cutoff').val();
-                settings['bandreject_width'] = $('#bandreject_width').val();
-                settings['bandreject_order'] = $('#bandreject_order').val();
-                break;
+        settings['width']   = parseFloat($('#'+ settings['filter'] +'_width').val());
+        settings['order']   = parseFloat($('#'+ settings['filter'] +'_order').val());
+        settings['cutoff']  = parseFloat($('#'+ settings['filter'] +'_cutoff').val());
 
-            case "notch":
-                settings['notch_type'] = $('#notch_type').val();
-                settings['notch_centerbox'] = $('#notch_centerbox').val();
-                settings['notch_sd'] = $('#notch_sd').val();
-                break;
+        settings['notch_centerbox'] = parseFloat($('#notch_centerbox').val());
+        settings['notch_sd'] = parseFloat($('#notch_sd').val());
+        settings['invfilter_k'] = parseFloat($('#invfilter_k').val());
+        settings['wiener_k'] = parseFloat($('#wiener_k').val());
 
-            case "invfilter":
-                settings['invfilter_k'] = $('#invfilter_k').val();
-                break;
 
-            case "wiener":
-                settings['wiener_k'] = $('#wiener_k').val();
-                break;
-        }
+
+
+{#        switch(settings['filter'])#}
+{#        {#}
+{#            #}
+{#            case "BR":#}
+{#                #}
+{#
+{#                break;#}
+{##}
+{#            case "NOTCH":#}
+{#                settings['NOTCH_filter_type'] = $('#filter_type').val();#}
+{#
+{#                break;#}
+{##}
+{#            case "invfilter":#}
+
+{#                break;#}
+{##}
+{#            case "WIENER":#}
+{#                #}
+{#                break;#}
+{#        }#}
 
         return settings;
     };
