@@ -86,10 +86,10 @@ def add_noise_to_image(image, noise_type, gauss_mean=50, gauss_sigma = 20, sp_am
 #
 
 
-img = cv2.imread('data/Lenna.png')
-if len(img.shape) == 3:
-    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-
-noisy_image = add_noise_to_image(img, 1, gauss_sigma=40)
-plt.imshow(noisy_image)
-plt.show()
+# img = cv2.imread('data/Lenna.png')
+# if len(img.shape) == 3:
+#     img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+#
+# noisy_image = add_noise_to_image(img, 1, gauss_sigma=40)
+# plt.imshow(noisy_image)
+# plt.show()
