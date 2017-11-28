@@ -50,17 +50,17 @@ def getImage(dft_img):
     return img_back
 
 #################Generate Noise
-params={}
-params['image'] = import_image("data/charlie.jpg")
-params['filter_shape'] = params['image'].shape
-params['image_dft'] = getDFT(params['image'])
-noisy_dft = PF.generate_noise(params)
-img_back = getImage(noisy_dft)
-img_back = post_process_image(img_back)
-# display_image("Original", img_back)
-
-##save noisy image
-cv2.imwrite('data/noisy_img.png', img_back)
+# params={}
+# params['image'] = import_image("data/charlie.jpg")
+# params['filter_shape'] = params['image'].shape
+# params['image_dft'] = getDFT(params['image'])
+# noisy_dft = PF.generate_noise(params)
+# img_back = getImage(noisy_dft)
+# img_back = post_process_image(img_back)
+# # display_image("Original", img_back)
+#
+# ##save noisy image
+# cv2.imwrite('data/noisy_img.png', img_back)
 
 
 #################Bandreject Testing
@@ -137,7 +137,7 @@ cv2.imwrite('data/noisy_img.png', img_back)
 #########################Inverse Filters
 ###Generate Gaussian blur
 # params={}
-# params['image'] = import_image("img5.tif")
+# params['image'] = import_image("data/charlie.jpg")
 # params['filter_shape'] = params['image'].shape
 # params['image_dft'] = getDFT(params['image'])
 # params['k_param'] = 0.0025
@@ -147,7 +147,7 @@ cv2.imwrite('data/noisy_img.png', img_back)
 # img_back = getImage(blurimg)
 # img_back = post_process_image(img_back)
 # display_image("Blur img", img_back)
-# cv2.imwrite("blurimg.png", img_back)
+# cv2.imwrite("data/blurimg.png", img_back)
 #
 # ####Only Inverse
 # params={}
@@ -164,16 +164,16 @@ cv2.imwrite('data/noisy_img.png', img_back)
 #
 #
 #
-# ####Winer Inverser Filter
-# params = {}
-# params['image'] = import_image("blurimg.png")
-# params['filter_shape'] = params['image'].shape
-# params['image_dft'] = getDFT(params['image'])
-# params['k_param'] = 0.0025
-# params['spectrum_noise_orgimg'] = 0.0001
-#
-# reconstructed = PF.inverse_wiener_filter(params)
-#
-# back = getImage(reconstructed)
-# back = post_process_image(back)
-# display_image("Winer filtering", back)
+####Winer Inverser Filter
+params = {}
+params['image'] = import_image("data/blurimg.png")
+params['filter_shape'] = params['image'].shape
+params['image_dft'] = getDFT(params['image'])
+params['k_param'] = 0.0025
+params['spectrum_noise_orgimg'] = 0.0001
+
+reconstructed = PF.inverse_wiener_filter(params)
+
+back = getImage(reconstructed)
+back = post_process_image(back)
+display_image("Winer filtering", back)
