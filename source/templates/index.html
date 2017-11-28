@@ -195,16 +195,17 @@
         var sub_ftype = "#" + settings['filter'] + "_filter_type"
         settings['filter_name'] = $(sub_ftype).val();
 
+
         settings['width']   = parseFloat($('#'+ settings['filter'] +'_width').val());
         settings['order']   = parseFloat($('#'+ settings['filter'] +'_order').val());
         settings['cutoff']  = parseFloat($('#'+ settings['filter'] +'_cutoff').val());
 
-        settings['notch_centerbox'] = parseFloat($('#notch_centerbox').val());
-        settings['notch_sd'] = parseFloat($('#notch_sd').val());
-        settings['invfilter_k'] = parseFloat($('#invfilter_k').val());
-        settings['wiener_k'] = parseFloat($('#wiener_k').val());
+        settings['notch_centerbox'] = parseFloat($('#'+ settings['filter'] +'_centerbox').val());
+        settings['notch_sd']        = parseFloat($('#'+ settings['filter'] +'_sd').val());
+        settings['invfilter_k']     = parseFloat($('#invfilter_k').val());
+        settings['wiener_k']        = parseFloat($('#wiener_k').val());
 
-
+        alert(JSON.stringify(settings))
 
 
 {#        switch(settings['filter'])#}

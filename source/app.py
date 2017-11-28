@@ -41,8 +41,9 @@ def send_image(filename):
 
 @app.route('/apply', methods=['POST'])
 def apply_filter():
-    process_image(request.json)
+    image_path = process_image(request.json)
 
+    print('>>> ', image_path)
     # print(request.json)
     #
     #
@@ -61,38 +62,38 @@ def apply_filter():
     #     print("TRY AGAIN: NOT METHOD SPECIFY!")
     #     return redirect(request.url)
 
-    return render_template('image.html', source = config.RESULT_IMAGE_FILE_PATH)
+    return render_template('image.html', source = image_path)
 
 
-# TODO move these functions to the backend
-def handle_statistical(json):
-    print("handle statistical:", json)
-    return "Lenna.png"
-
-def handle_periodic(json):
-    print('>>>>', json)
-    func = json['settings']['bandreject_type']
-
-    # Filters.BR_IDEAL_FILTER()
-    PeriodicFilters.band_reject_ideal_filter(json['settings'])
-
-    print("handle periodic:", json)
-    return "Lenna.png"
-
-def handle_noise(json):
-    print("handle noise:", json)
-    return "Lenna.png"
+# # TODO move these functions to the backend
+# def handle_statistical(json):
+#     print("handle statistical:", json)
+#     return "Lenna.png"
+#
+# def handle_periodic(json):
+#     print('>>>>', json)
+#     func = json['settings']['bandreject_type']
+#
+#     # Filters.BR_IDEAL_FILTER()
+#     PeriodicFilters.band_reject_ideal_filter(json['settings'])
+#
+#     print("handle periodic:", json)
+#     return "Lenna.png"
+#
+# def handle_noise(json):
+#     print("handle noise:", json)
+#     return "Lenna.png"
 
 
 def process_image(json_dict):
     op = Operations()
-    op.apply_filter(json_dict)
+
     # op.apply_filter({'filter_name': Filters.MEAN_ARITHMETIC_FILTER,
     #                  'filter_shape': (5, 4),
     #                  'high_pass': True
     #                  })
 
-    return None
+    return op.apply_filter(json_dict)
 
 
 if __name__ == "__main__":

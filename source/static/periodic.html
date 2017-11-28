@@ -40,53 +40,53 @@
         </td>
         <td>
             <select id="NOTCH_filter_type" class='form-control right'>
-                <option value="IDEAL_FILTER">Ideal Notch</option>
-                <option value="GAUSSIAN_FILTER">Gaussian Notch</option>
-                <option value="BUTTERWORTH_FILTER">Butterworth Notch</option>
+                <option value="NOTCH_IDEAL_FILTER">Ideal Notch</option>
+                <option value="NOTCH_GAUSSIAN_FILTER">Gaussian Notch</option>
+                <option value="NOTCH_BUTTERWORTH_FILTER">Butterworth Notch</option>
             </select>
         </td>
         <td></td>
     </tr>
     <tr>
         <td></td>
-        <td><label for="notch_centerbox">Center box</label></td>
-        <td><input type="number" id="notch_centerbox" name="notch_centerbox" min="1" max="10000" value="1"></td>
+        <td><label for="NOTCH_centerbox">Center box</label></td>
+        <td><input type="number" id="NOTCH_centerbox" name="NOTCH_centerbox" min="1" max="10000" value="1"></td>
     </tr>
     <tr>
         <td></td>
-        <td><label for="notch_sd">SD</label></td>
-        <td><input type="number" id="notch_sd" name="notch_sd" min="1" max="10000" value="1"></td>
+        <td><label for="NOTCH_sd">SD</label></td>
+        <td><input type="number" id="NOTCH_sd" name="NOTCH_sd" min="1" max="10000" value="1"></td>
     </tr>
 
 
     <!-- INVERSE FILTER -->
     <tr>
         <td>
-            <input type="radio" id="invfilter" name="filterchoice" value="invfilter">
-            <label for="invfilter">Inverse Filter</label>
+            <input type="radio" id="INVERSE" name="filterchoice" value="INVERSE">
+            <label for="INVERSE">Inverse Filter</label>
         </td>
         <td></td>
         <td></td>
     </tr>
     <tr>
         <td></td>
-        <td><label for="invfilter_k">K</label></td>
-        <td><input type="number" id="invfilter_k" name="invfilter_k" min="1" max="10000" value="1"></td>
+        <td><label for="INVERSE_k">K</label></td>
+        <td><input type="number" id="INVERSE_k" name="INVERSE_k" min="1" max="10000" value="1"></td>
     </tr>
 
 
     <!-- WIENER -->
     <tr>
         <td>
-            <input type="radio" id="wiener" name="filterchoice" value="wiener">
-            <label for="wiener">Wiener</label>
+            <input type="radio" id="WIENER" name="filterchoice" value="WIENER">
+            <label for="WIENER">Wiener</label>
         </td>
         <td></td>
         <td></td>
     </tr>
     <tr>
         <td></td>
-        <td><label for="wiener_k">K</label></td>
-        <td><input type="number" id="wiener_k" name="wiener_k" min="1" max="10000" value="1"></td>
+        <td><label for="WIENER_k">K</label></td>
+        <td><input type="number" id="WIENER_k" name="WIENER_k" min="1" max="10000" value="1"></td>
     </tr>
 </table>

@@ -42,4 +42,5 @@ NOTCH_GAUSSIAN_FILTER = PeriodicFilters.notch_gaussian_filter
 NOTCH_BUTTERWORTH_FILTER = PeriodicFilters.notch_butterworth_ideal_filter
 
 # Inverse Filters
-INVERSE_WIENER_FILTER       = PeriodicFilters.inverse_wiener_filter
+INVERSE_FILTER      = PeriodicFilters.inverse_filter
+WIENER_FILTER       = PeriodicFilters.inverse_wiener_filter
