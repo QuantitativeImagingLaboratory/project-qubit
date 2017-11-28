@@ -3,10 +3,15 @@
     <head>
         <title>Qubit - Image Restoration</title>
         <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
-        <link rel=stylesheet type=text/css href="{{ url_for('static', filename='bootstrap.min.css') }}">
-        <script src="{{ url_for('static', filename='jquery.min.js') }}"></script>
-        <script src="{{ url_for('static', filename='popper.min.js') }}"></script>
-        <script src="{{ url_for('static', filename='bootstrap.min.js') }}"></script>
+        <!--<link rel=stylesheet type=text/css href="{{ url_for('static', filename='bootstrap.min.css') }}">-->
+        <!--<script src="{{ url_for('static', filename='jquery.min.js') }}"></script>-->
+        <!--<script src="{{ url_for('static', filename='popper.min.js') }}"></script>-->
+        <!--<script src="{{ url_for('static', filename='bootstrap.min.js') }}"></script>-->
+
+        <link rel=stylesheet type=text/css href="https://bootswatch.com/4/simplex/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <script src="https://bootswatch.com/_vendor/popper.js/dist/umd/popper.min.js"></script>
+        <script src="https://bootswatch.com/_vendor/bootstrap/dist/js/bootstrap.min.js"></script>
     </head>
     <body class="page">
         <h1>Qubit Team</h1>
@@ -49,8 +54,13 @@
                     </td>
                     <td></td>
                     <td>
-                        <!--Fill with display options template-->
-                        <div id="display_wrapper"></div>
+                        <table width="100%">
+                            <tr>
+                                <!--Fill with display options template-->
+                                <td width="80%"><div id="display_wrapper"></div></td>
+                                <td width="20%"><input id="apply_btn" type="button" class="btn btn-primary" value="Apply"></td>
+                            </tr>
+                        </table>
                     </td>
                 </tr>
 
@@ -105,7 +115,8 @@
     $("#periodic-wrapper").load('static/periodic.html');
     $("#noise-wrapper").load('static/noise.html');
 
-    $("#upload_btn").click(function(){
+    $("#upload_btn").click(function()
+    {
         $.ajax({
             type: "POST",
             url: "/upload",
@@ -121,41 +132,33 @@
         });
     });
 
-    $("#apply_btn").click(function () {
-        // data structure
+    $("#apply_btn").click(function ()
+    {
+        console.log("Apply button clicked!");
+
         var data = {
-            'filter': null,
-            'filter_settings': null,
-            'display': null
+            'method': null,
+            'settings': null,
+            'display': null,
         };
 
-        // Filter settings
-        data['filter'] = $("input[name='filterchoice']:checked").val();
-        switch(data['filter'])
-        {
-            case "bandreject":
-                var filterType = $('#bandreject_type').val();
-                var thickness = $('#thickness').val();
-                var radius = $('#radius').val();
-                var settings = {
-                    'type': filterType,
-                    'thickness':thickness,
-                    'radius': radius
-                };
-                data['filter_settings'] = settings;
-                break;
+        data['method']  = $("#tab-content > .show").attr('id');
+        data['display'] = $($("#display_wrapper option:selected")[0]).val();
 
-            case "notch":
-                var filterType = $('#notch_type').val();
-                var settings = { 'type': filterType };
-                data['filter_settings'] = settings;
+        switch(data['method'])
+        {
+            case 'statistical':
+                data['settings'] = getStatisticalSettings();
+                break;
+            case 'periodic':
+                data['settings'] = getPeriodicSettings();
+                break;
+            case 'noise':
+                data['settings'] = getGenerativeNoiseSettings();
                 break;
             default:
-                data['filter_settings'] = {};
-        };
-
-        // Display options
-        data['display'] = $("input[name='displaychoice']:checked").val();
+                data['settings'] = {};
+        }
 
         // Debug alert
         alert(JSON.stringify(data, null, '\t'));
@@ -174,11 +177,71 @@
             }
         });
     });
+
+    var getStatisticalSettings = function()
+    {
+        var settings = {};
+        settings['filter_type'] = $("#filter_type").val();
+        settings['win_size'] = $("#win_size").val();
+        settings['q'] = $("#q").val();
+        settings['d'] = $("#d").val();
+        return settings;
+    };
+
+    var getPeriodicSettings = function()
+    {
+        var settings = {};
+        settings['filter'] = $("input[name='filterchoice']:checked").val();
+
+        switch(settings['filter'])
+        {
+            case "bandreject":
+                settings['bandreject_type'] = $('#bandreject_type').val();
+                settings['bandreject_cutoff'] = $('#bandreject_cutoff').val();
+                settings['bandreject_width'] = $('#bandreject_width').val();
+                settings['bandreject_order'] = $('#bandreject_order').val();
+                break;
+
+            case "notch":
+                settings['notch_type'] = $('#notch_type').val();
+                settings['notch_centerbox'] = $('#notch_centerbox').val();
+                settings['notch_sd'] = $('#notch_sd').val();
+                break;
+
+            case "invfilter":
+                settings['invfilter_k'] = $('#invfilter_k').val();
+                break;
+
+            case "wiener":
+                settings['wiener_k'] = $('#wiener_k').val();
+                break;
+        }
+
+        return settings;
+    };
+
+    var getGenerativeNoiseSettings = function ()
+    {
+        var settings = {};
+        settings['noise'] = $("input[name='noisechoice']:checked").val();
+
+        switch(settings['noise'])
+        {
+            case "generative_noise_option":
+                settings['generative_noise_cutoff'] = $('#generative_noise_cutoff').val();
+                break;
+
+            case "generative_blur_option":
+                settings['generative_noise_k'] = $('#generative_noise_k').val();
+                break;
+        }
+
+        var noiseImagePath = $($("#browse_noise_form").find("input[name='image']")[0]).val();
+        var noiseImageName = noiseImagePath.split("\\").pop();
+        settings['noise_image'] = noiseImageName;
+
+        return settings;
+    };
 </script>
-
-
-
-
-
 
 

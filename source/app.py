@@ -18,7 +18,7 @@ def main():
     return render_template('index.html')
 
 
-@app.route('/upload', methods=['POST'])
+@app.route('/upload', methods=['POST', 'GET'])
 def upload_image():
     if 'image' not in request.files:
         return redirect(request.url)
@@ -43,17 +43,17 @@ def send_image(filename):
 def apply_filter():
     print(request.json)
 
-    # The display choice: 'filtered', 'dft', 'mask', 'histogram'
-    display = request.json['display']
-
-    # The filter name: 'bandreject', 'notch', 'invfilter', 'wiener'
-    filter = request.json['filter']
-
-    # The settings for each filter
-    # for bandreject: {'type': 'gaussian', 'thickness': '1', 'radius': '1'}
-    # for notch: {'type': 'ideal'}
-    # else: {}
-    filter_settings = request.json['filter_settings']
+    # # The display choice: 'filtered', 'dft', 'mask', 'histogram'
+    # display = request.json['display']
+    #
+    # # The filter name: 'bandreject', 'notch', 'invfilter', 'wiener'
+    # filter = request.json['filter']
+    #
+    # # The settings for each filter
+    # # for bandreject: {'type': 'gaussian', 'thickness': '1', 'radius': '1'}
+    # # for notch: {'type': 'ideal'}
+    # # else: {}
+    # filter_settings = request.json['filter_settings']
 
 
     """
@@ -76,5 +76,5 @@ def process_image():
 
 
 if __name__ == "__main__":
-    app.run(port=8081, debug=True)
+    app.run(port=8805, debug=True)
     # process_image()
