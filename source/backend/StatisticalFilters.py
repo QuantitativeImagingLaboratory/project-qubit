@@ -38,7 +38,6 @@ def convolve(params):
 
 			# Put the value in the final image
 			filtered_image[y - pad, x - pad] = k
-	cv2.imwrite(os.path.join(config.DATA_PATH, "test.png"))
 	return filtered_image
 
 def mean_arithmetic_filter(params):
@@ -184,7 +183,7 @@ def adaptive_filter(params):
 
 def adaptive_median_filter(params):
 	image = params["input_image"]
-	m, n = params["max_window_size"]
+	m, n = params["window_size"]
 	u, v = image.shape[:2]
 
 	c_w = params["min_window_size"][0]
