@@ -28,7 +28,8 @@ class Filters(Enum):
     OS_ALPHA_TRIMMED_FILTER     = StatisticalFilters.order_statistic_alpha_trimmed_filter
 
     # Adaptive Filters
-    ADAPTIVE_FILTER             = StatisticalFilters.adaptive_filter
+    ADAPTIVE_MEAN_FILTER             = StatisticalFilters.adaptive_filter
+    ADAPTIVE_MEDIAN_FILTER = StatisticalFilters.adaptive_median_filter
 
 
     ## Periodic Noise Filters

@@ -2,11 +2,17 @@ import numpy as np
 import config
 import logging
 import cv2
+import os
 import utilities
 logging.basicConfig(level=config.logging_level, format='%(levelname)s - %(message)s')
 
-params = {}
-def convolve(image, filter_funct, window_size):
+# params = {}
+def convolve(params):
+	image = params["image"]
+	filter_funct = params["filter_funct"]
+	window_size = params["window_size"]
+
+
 	m, n = window_size
 	u, v = image.shape[:2]
 
@@ -32,7 +38,7 @@ def convolve(image, filter_funct, window_size):
 
 			# Put the value in the final image
 			filtered_image[y - pad, x - pad] = k
-
+	cv2.imwrite(os.path.join(config.DATA_PATH, "test.png"))
 	return filtered_image
 
 def mean_arithmetic_filter(params):
