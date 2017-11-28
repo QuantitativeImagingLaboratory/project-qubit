@@ -2,13 +2,14 @@ import os
 import config
 import logging
 import utilities as webutils
+from backend import PeriodicFilters
 from backend.Filters import Filters
 from backend.Operations import Operations
 logging.basicConfig(level=config.logging_level, format='%(levelname)s - %(message)s')
-
+import cv2
 from flask import Flask
 from flask import render_template, request, redirect, send_from_directory
-
+from backend.Filters import Filters
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = config.DATA_PATH
 
@@ -30,7 +31,7 @@ def upload_image():
 
     if file and webutils.allowed_file(file.filename):
         filename = file.filename
-        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        file.save(config.UPLOADED_IMAGE_FILE_PATH)
         return render_template('image.html', source=filename)
 
 
@@ -42,12 +43,17 @@ def send_image(filename):
 @app.route('/apply', methods=['POST'])
 def apply_filter():
     output_image = 'Lenna.png'
+    print(request.json)
+    image = cv2.imread(config.UPLOADED_IMAGE_FILE_PATH)
+    params = request.json
+    params['filter_shape'] = image.shape
+
     if request.json['method'] == 'statistical':
-        output_image = handle_statistical(request.json)
+        output_image = handle_statistical(params)
     elif request.json['method'] == 'periodic':
-        output_image = handle_periodic(request.json)
+        output_image = handle_periodic(params)
     elif request.json['method'] == 'noise':
-        output_image = handle_noise(request.json)
+        output_image = handle_noise(params)
     else:
         print("TRY AGAIN: NOT METHOD SPECIFY!")
         return redirect(request.url)
@@ -61,6 +67,12 @@ def handle_statistical(json):
     return "Lenna.png"
 
 def handle_periodic(json):
+    print('>>>>', json)
+    func = json['settings']['bandreject_type']
+
+    # Filters.BR_IDEAL_FILTER()
+    PeriodicFilters.band_reject_ideal_filter(json['settings'])
+
     print("handle periodic:", json)
     return "Lenna.png"
 

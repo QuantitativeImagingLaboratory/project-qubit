@@ -20,7 +20,7 @@ print(ROOT_DIR)
 
 # Directory for images and other data
 DATA_PATH = ROOT_DIR + 'source/data/'
-
+UPLOADED_IMAGE_FILE_PATH = DATA_PATH + '/uploaded_image.img'
 ############################################################
 ## Extensions
 

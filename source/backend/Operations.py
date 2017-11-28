@@ -16,7 +16,7 @@ class Operations:
         logging.info('apply filter function')
         filter = self.create_filter(parameters)
 
-        image = cv2.imread(parameters['image_path'])
+        image = cv2.imread(config.UPLOADED_IMAGE_FILE_PATH)
         dft = np.fft.fft2(parameters)
 
         # Needs to be completed
