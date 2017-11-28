@@ -41,28 +41,32 @@ def send_image(filename):
 
 @app.route('/apply', methods=['POST'])
 def apply_filter():
-    print(request.json)
+    output_image = 'Lenna.png'
+    if request.json['method'] == 'statistical':
+        output_image = handle_statistical(request.json)
+    elif request.json['method'] == 'periodic':
+        output_image = handle_periodic(request.json)
+    elif request.json['method'] == 'noise':
+        output_image = handle_noise(request.json)
+    else:
+        print("TRY AGAIN: NOT METHOD SPECIFY!")
+        return redirect(request.url)
 
-    # # The display choice: 'filtered', 'dft', 'mask', 'histogram'
-    # display = request.json['display']
-    #
-    # # The filter name: 'bandreject', 'notch', 'invfilter', 'wiener'
-    # filter = request.json['filter']
-    #
-    # # The settings for each filter
-    # # for bandreject: {'type': 'gaussian', 'thickness': '1', 'radius': '1'}
-    # # for notch: {'type': 'ideal'}
-    # # else: {}
-    # filter_settings = request.json['filter_settings']
+    return render_template('image.html', source=output_image)
 
 
-    """
-    TODO: 1) call a backend function to apply filters
-          2) then generate an image in the data folder
-          3) send the name of the image instead of Lenna.png below
-    """
+# TODO move these functions to the backend
+def handle_statistical(json):
+    print("handle statistical:", json)
+    return "Lenna.png"
 
-    return render_template('image.html', source='Lenna.png')
+def handle_periodic(json):
+    print("handle periodic:", json)
+    return "Lenna.png"
+
+def handle_noise(json):
+    print("handle noise:", json)
+    return "Lenna.png"
 
 
 def process_image():
@@ -76,5 +80,5 @@ def process_image():
 
 
 if __name__ == "__main__":
-    app.run(port=8805, debug=True)
+    app.run(port=8815, debug=True)
     # process_image()
