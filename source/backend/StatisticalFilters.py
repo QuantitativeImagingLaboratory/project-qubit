@@ -4,14 +4,18 @@ import logging
 import cv2
 import os
 import utilities
+
 logging.basicConfig(level=config.logging_level, format='%(levelname)s - %(message)s')
+
 
 # params = {}
 def convolve(params):
+	# for k, v in params:
+	# 	if k != 'image':
+	# 		print(k, v)
 	image = params["image"]
-	filter_funct = params["filter_funct"]
-	window_size = params["window_size"]
-
+	filter_funct = params['filt_func']
+	window_size = params["window"]
 
 	m, n = window_size
 	u, v = image.shape[:2]
@@ -23,7 +27,7 @@ def convolve(params):
 	filtered_image = np.zeros((u, v), dtype="uint8")
 
 	# Get global parameters
-	g_mean, g_var = estimate_params(image)
+	g_mean, g_var = utilities.estimate_params(image)
 	params["g_mean"] = g_mean
 	params["g_var"] = g_var
 
@@ -46,7 +50,6 @@ def mean_arithmetic_filter(params):
 	:param params:
 	:return:
 	"""
-	logging.info(filter)
 
 	window = params["window"]
 	return np.sum(window) / (window.shape[0] * window.shape[1])

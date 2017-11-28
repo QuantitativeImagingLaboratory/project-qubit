@@ -181,10 +181,10 @@
     var getStatisticalSettings = function()
     {
         var settings = {};
-        settings['filter_type'] = $("#filter_type").val();
-        settings['win_size'] = $("#win_size").val();
-        settings['q'] = $("#q").val();
-        settings['d'] = $("#d").val();
+        settings['filter_name'] = $("#filter_type").val();
+        settings['window'] = parseInt($("#win_size").val());
+        settings['Q'] = parseFloat($("#q").val());
+        settings['d'] = parseFloat($("#d").val());
         return settings;
     };
 
@@ -192,8 +192,12 @@
     {
         var settings = {};
         settings['filter'] = $("input[name='filterchoice']:checked").val();
+
         var sub_ftype = "#" + settings['filter'] + "_filter_type"
-        settings['filter_name'] = $(sub_ftype).val();
+        if($(sub_ftype).val())
+            settings['filter_name'] = $(sub_ftype).val();
+        else
+            settings['filter_name'] = settings['filter']
 
 
         settings['width']   = parseFloat($('#'+ settings['filter'] +'_width').val());
@@ -202,8 +206,9 @@
 
         settings['notch_centerbox'] = parseFloat($('#'+ settings['filter'] +'_centerbox').val());
         settings['notch_sd']        = parseFloat($('#'+ settings['filter'] +'_sd').val());
-        settings['invfilter_k']     = parseFloat($('#invfilter_k').val());
-        settings['wiener_k']        = parseFloat($('#wiener_k').val());
+        settings['k_param']         = parseFloat($('#'+ settings['filter'] +'_k').val());
+        settings['spectrum_noise_orgimg']  = parseFloat($('#'+ settings['filter'] +'_spn').val());
+
 
         alert(JSON.stringify(settings))
 

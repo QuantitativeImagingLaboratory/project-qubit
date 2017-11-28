@@ -33,9 +33,13 @@ BR_GAUSSIAN_FILTER = PeriodicFilters.band_reject_gaussian_filter
 BR_BUTTERWORTH_FILTER = PeriodicFilters.band_reject_butterworth_filter
 
 # Notch Filters
-NOTCH_IDEAL_FILTER = PeriodicFilters.notch_ideal_filter
-NOTCH_GAUSSIAN_FILTER = PeriodicFilters.notch_gaussian_filter
-NOTCH_BUTTERWORTH_FILTER = PeriodicFilters.notch_butterworth_ideal_filter
+# NOTCH_IDEAL_FILTER = PeriodicFilters.notch_ideal_filter
+# NOTCH_GAUSSIAN_FILTER = PeriodicFilters.notch_gaussian_filter
+# NOTCH_BUTTERWORTH_FILTER = PeriodicFilters.notch_butterworth_ideal_filter
+NOTCH_IDEAL_FILTER = PeriodicFilters.notch_filter
+NOTCH_GAUSSIAN_FILTER = PeriodicFilters.notch_filter
+NOTCH_BUTTERWORTH_FILTER = PeriodicFilters.notch_filter
+
 
 # Inverse Filters
 INVERSE_FILTER      = PeriodicFilters.inverse_filter

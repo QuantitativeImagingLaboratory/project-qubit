@@ -134,9 +134,9 @@ def notch_butterworth_ideal_filter(params, notch_list):
     :return:
     """
     image_shape = params['filter_shape']
-    notch_size = params['notch_size']
-    cutoff = params['cutoff']
-    order = params['order']
+    notch_size = 2 #params['notch_size']
+    cutoff = 4 #params['cutoff']
+    order = 2 #params['order']
 
     mask = np.ones(params['filter_shape']) * 255
     rows = image_shape[0]
@@ -196,19 +196,21 @@ def notch_filter(params):
         :param params: dft of image , type of notch, diviation number,
         :return:
     """
-    type = params['type']
+    print('Inside Notch')
+    print(params)
+    type = params['filter_name']
 
     #Generate binary image
     fft_mag = np.log(np.abs(params['image_dft']))
     fft_mag = (255 * (fft_mag / np.max(fft_mag))).astype('uint8')
-    binaryimg = binarize(fft_mag, params['std_num'])
+    binaryimg = binarize(fft_mag, params['notch_sd'])
 
     #get notch location
-    notch_list = getNotchLocation(binaryimg, params['center_box'])
+    notch_list = getNotchLocation(binaryimg, params['notch_centerbox'])
 
-    if type == 'gaussian':
+    if type == 'NOTCH_GAUSSIAN_FILTER':
         return notch_gaussian_filter(params, notch_list)
-    elif type == 'butterworth':
+    elif type == 'NOTCH_BUTTERWORTH_FILTER':
         return notch_butterworth_ideal_filter(params, notch_list)
     else:
         return notch_ideal_filter(params, notch_list)
