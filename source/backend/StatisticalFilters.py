@@ -163,7 +163,7 @@ def adaptive_filter(params):
 	"""
 
 	window = params["window"]
-	image = params["input_image"]
+	image = params["image"]
 
 	# Get global parameters
 	g_mean = params["g_mean"]
@@ -185,7 +185,7 @@ def adaptive_filter(params):
 
 
 def adaptive_median_filter(params):
-	image = params["input_image"]
+	image = params["image"]
 	m, n = params["window_size"]
 	u, v = image.shape[:2]
 

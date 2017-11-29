@@ -41,11 +41,13 @@ class Operations:
         image_shape = input_image.shape
         print(image_shape, ' >> image shape')
 
+        image_name = str(time.time()) + '.jpg'
         input_params = {}
         input_params['method'] = req_parameters['method']
         input_params['filter_shape'] = image_shape
         for k, v in req_parameters['settings'].items():
             input_params[k] = v
+        input_params['image_name'] = image_name
 
         if req_parameters['method'] == 'statistical':
             input_params['image'] = input_image
@@ -53,7 +55,6 @@ class Operations:
             input_params['filt_func'] = Filters.__getattribute__(input_params['filter_name'])
             result_image = StatisticalFilters.convolve(input_params)
         else:
-            print('>>>', input_params)
 
             logging.info('apply filter function')
 
@@ -66,6 +67,7 @@ class Operations:
 
             # input_params['spectrum_noise_orgimg'] = 0.0001
             filter = self.create_filter(input_params)
+            cv2.imwrite('data/mask_'+input_params['image_name'], filter)
 
             denoise_dft = fft_shift * filter
 
@@ -77,7 +79,6 @@ class Operations:
             img_back = np.fft.ifft2(f_ishift).real
             result_image = self.post_process_image(img_back)
 
-        image_name = str(time.time()) + '.jpg'
         cv2.imwrite('data/'+ image_name, result_image)
 
         # Needs to be completed
