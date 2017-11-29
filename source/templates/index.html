@@ -132,6 +132,29 @@
         });
     });
 
+    $("#displaychoice").change(function()
+    {
+        var displayOption = $($("#display_wrapper option:selected")[0]).val();
+        var data = {
+            'display': displayOption
+        };
+
+        // Ajax request
+        $.ajax({
+            type: "POST",
+            url: "/display",
+            data: JSON.stringify(data, null, '\t'),
+            contentType: 'application/json;charset=UTF-8',
+            success: function(response) {
+                $("#target_img").html(response);
+            },
+            error: function(xhr) {
+                alert("Something went wrong!");
+            }
+        });
+    });
+
+
     $("#apply_btn").click(function ()
     {
         setLoadingGif();
