@@ -24,7 +24,7 @@ def upload_image():
         return redirect(request.url)
 
     file = request.files['image']
-
+    print(file, request.url)
     if file.filename == '':
         return redirect(request.url)
 
