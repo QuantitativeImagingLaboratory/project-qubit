@@ -144,7 +144,6 @@
         data['method']  = $("#tab-content > .show").attr('id');
         data['display'] = $($("#display_wrapper option:selected")[0]).val();
 
-        alert(JSON.stringify(data) )
 
         switch(data['method'])
         {
@@ -162,7 +161,7 @@
         }
 
         // Debug alert
-        alert(JSON.stringify(data, null, '\t'));
+{#        alert(JSON.stringify(data, null, '\t'));#}
 
         // Ajax request
         $.ajax({
@@ -209,32 +208,6 @@
         settings['notch_sd']        = parseFloat($('#'+ settings['filter'] +'_sd').val());
         settings['k_param']         = parseFloat($('#'+ settings['filter'] +'_k').val());
         settings['spectrum_noise_orgimg']  = parseFloat($('#'+ settings['filter'] +'_spn').val());
-
-
-        alert(JSON.stringify(settings))
-
-
-{#        switch(settings['filter'])#}
-{#        {#}
-{#            #}
-{#            case "BR":#}
-{#                #}
-{#
-{#                break;#}
-{##}
-{#            case "NOTCH":#}
-{#                settings['NOTCH_filter_type'] = $('#filter_type').val();#}
-{#
-{#                break;#}
-{##}
-{#            case "invfilter":#}
-
-{#                break;#}
-{##}
-{#            case "WIENER":#}
-{#                #}
-{#                break;#}
-{#        }#}
 
         return settings;
     };
