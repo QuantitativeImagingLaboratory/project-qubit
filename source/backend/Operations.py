@@ -62,14 +62,18 @@ class Operations:
             fft_image = np.fft.fft2(input_image)  # nunpy
             # 2 shift the fft to center
             fft_shift = np.fft.fftshift(fft_image)
+            cv2.imwrite('data/dft_' + input_params['image_name'], fft_shift.real)
 
             input_params['image_dft'] = fft_shift
 
             # input_params['spectrum_noise_orgimg'] = 0.0001
             filter = self.create_filter(input_params)
-            cv2.imwrite('data/mask_'+input_params['image_name'], filter)
+            cv2.imwrite('data/mask_'+input_params['image_name'], filter.real)
 
-            denoise_dft = fft_shift * filter
+            if 'WIEN' in input_params['filter_name'] or 'INVE' in input_params['filter_name']:
+                denoise_dft = filter
+            else:
+                denoise_dft = fft_shift * filter
 
             # plt.imshow(denoise_dft.real)
             # plt.show()
