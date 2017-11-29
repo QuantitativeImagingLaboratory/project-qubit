@@ -166,7 +166,7 @@ def getImage(dft_img):
 #
 ####Winer Inverser Filter
 params = {}
-params['image'] = import_image("data/blurimg.png")
+params['image'] = import_image("data/blurimg2.png")
 params['filter_shape'] = params['image'].shape
 params['image_dft'] = getDFT(params['image'])
 params['k_param'] = 0.0025
