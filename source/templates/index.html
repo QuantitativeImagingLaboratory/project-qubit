@@ -57,7 +57,25 @@
                         <table width="100%">
                             <tr>
                                 <!--Fill with display options template-->
-                                <td width="80%"><div id="display_wrapper"></div></td>
+                                <td width="80%">
+                                    <div id="display_wrapper">
+                                        <table class="right" width="100%">
+                                            <tr>
+                                                <td>
+                                                    <label for="displaychoice" class="display_label">Display</label>
+                                                </td>
+                                                <td>
+                                                    <select id="displaychoice" class='form-control right'>
+                                                        <option value="filtered">Filtered Image</option>
+                                                        <option value="dft">DFT</option>
+                                                        <option value="mask">Mask</option>
+                                                        <option value="histogram">Histogram</option>
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </td>
                                 <td width="20%"><input id="apply_btn" type="button" class="btn btn-primary" value="Apply"></td>
                             </tr>
                         </table>
@@ -110,7 +128,7 @@
 </html>
 
 <script>
-    $("#display_wrapper").load('static/display.html');
+//    $("#display_wrapper").load('static/display.html');
     $("#statistical-wrapper").load('static/statistical.html');
     $("#periodic-wrapper").load('static/periodic.html');
     $("#noise-wrapper").load('static/noise.html');
@@ -131,6 +149,7 @@
             }
         });
     });
+
 
     $("#displaychoice").change(function()
     {
@@ -167,7 +186,6 @@
         data['method']  = $("#tab-content > .show").attr('id');
         data['display'] = $($("#display_wrapper option:selected")[0]).val();
 
-
         switch(data['method'])
         {
             case 'statistical':
@@ -184,7 +202,8 @@
         }
 
         // Debug alert
-{#        alert(JSON.stringify(data, null, '\t'));#}
+        // alert(JSON.stringify(data, null, '\t'));
+        console.log(JSON.stringify(data, null, '\t'));
 
         // Ajax request
         $.ajax({
@@ -231,6 +250,8 @@
         settings['notch_sd']        = parseFloat($('#'+ settings['filter'] +'_sd').val());
         settings['k_param']         = parseFloat($('#'+ settings['filter'] +'_k').val());
         settings['spectrum_noise_orgimg']  = parseFloat($('#'+ settings['filter'] +'_spn').val());
+
+        console.log(JSON.stringify(settings))
 
         return settings;
     };
