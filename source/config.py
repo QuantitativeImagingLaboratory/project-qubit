@@ -20,9 +20,10 @@ print(ROOT_DIR)
 
 # Directory for images and other data
 DATA_PATH = ROOT_DIR + 'source/data/'
-UPLOADED_IMAGE_FILE_PATH = DATA_PATH + 'uploaded_image.jpg'
+UPLOADED_IMAGE_FILE_NAME = 'uploaded_image.jpg'
+UPLOADED_IMAGE_FILE_PATH = DATA_PATH + UPLOADED_IMAGE_FILE_NAME
 RESULT_IMAGE_FILE_PATH = 'result_image.jpg'
-FILE_DELETE_TIME = 120.0
+FILE_DELETE_TIME = 1200.0
 
 print(RESULT_IMAGE_FILE_PATH)
 ############################################################

@@ -13,6 +13,7 @@ app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = config.DATA_PATH
 
 current_image = ''
+upload = False
 
 
 @app.route("/")
@@ -30,14 +31,22 @@ def upload_image():
     if file.filename == '':
         return redirect(request.url)
 
+
     if file and webutils.allowed_file(file.filename):
         filename = file.filename
         file.save(config.UPLOADED_IMAGE_FILE_PATH)
+        global upload
+        upload = True
         return render_template('image.html', source=filename)
 
 
 @app.route('/render/<filename>')
 def send_image(filename):
+    global upload
+    if upload:
+        filename = config.UPLOADED_IMAGE_FILE_NAME
+        print(filename)
+        upload = False
     return send_from_directory('data/', filename)
 
 
@@ -50,6 +59,8 @@ def change_display():
         filename = '{}_{}'.format(request.json['display'], current_image)
     else:
         filename = current_image
+    global upload
+    upload = False
 
     if not os.path.isfile(os.path.join(config.DATA_PATH, filename)):
         print('file not there')
@@ -62,6 +73,8 @@ def apply_filter():
     image_path = process_image(request.json)
     global current_image
     current_image = image_path
+    global upload
+    upload = False
     return render_template('image.html', source=image_path)
 
 
