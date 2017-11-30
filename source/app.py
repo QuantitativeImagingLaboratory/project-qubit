@@ -52,6 +52,7 @@ def change_display():
         filename = current_image
 
     if not os.path.isfile(os.path.join(config.DATA_PATH, filename)):
+        print('file not there')
         return render_template('image.html', source='not_available.png')
     return render_template('image.html', source=filename)
 

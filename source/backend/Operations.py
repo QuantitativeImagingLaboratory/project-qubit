@@ -1,3 +1,5 @@
+from threading import Timer
+
 import numpy as np
 import config
 import cv2
@@ -42,13 +44,13 @@ class Operations:
         input_image = cv2.imread(config.UPLOADED_IMAGE_FILE_PATH, 0)
         image_shape = input_image.shape
 
-        image_name = str(time.time()) + '.jpg'
+        self.image_name = str(time.time()) + '.jpg'
         input_params = {}
         input_params['method'] = req_parameters['method']
         input_params['filter_shape'] = image_shape
         for k, v in req_parameters['settings'].items():
             input_params[k] = v
-        input_params['image_name'] = image_name
+        input_params['image_name'] = self.image_name
 
         if req_parameters['method'] == 'statistical':
             input_params['image'] = input_image
@@ -66,40 +68,63 @@ class Operations:
             fft_shift = np.fft.fftshift(fft_image)
 
             # Save
-            cv2.imwrite('data/dft_' + input_params['image_name'], post_process_image(np.log10(fft_shift.real)))
+            w_dft = np.log(np.abs(fft_shift))
+            w_dft = (255 * (w_dft / np.max(w_dft))).astype('uint8')
+            cv2.imwrite('data/dft_' + input_params['image_name'], w_dft)
 
             input_params['image_dft'] = fft_shift
 
+            ## CREATE FILTER
             # input_params['spectrum_noise_orgimg'] = 0.0001
             created_filter = self.create_filter(input_params)
-            cv2.imwrite('data/mask_'+input_params['image_name'], created_filter.real)
+            if np.max(created_filter) <= 1:
+                w_filter = 255 * created_filter
+            else:
+                w_filter = created_filter
+            w_filter = np.array(w_filter, dtype=np.uint8)
+
+            # Save
+            # with open('data/mask.txt', 'w') as dft_file:
+            #     for r in w_filter:
+            #         for c in r:
+            #             dft_file.write(str(c) + ' ')
+            #         dft_file.write('\n')
+
+            cv2.imwrite('data/mask_'+input_params['image_name'], w_filter)
 
             if 'WIEN' in input_params['filter_name'] or 'INVE' in input_params['filter_name']:
                 denoise_dft = created_filter
             else:
                 denoise_dft = fft_shift * created_filter
 
-            # plt.imshow(denoise_dft.real)
-            # plt.show()
-
             # Get image back
             f_ishift = np.fft.ifftshift(denoise_dft)
             img_back = np.fft.ifft2(f_ishift).real
             result_image = self.post_process_image(img_back)
 
-        cv2.imwrite('data/'+ image_name, result_image)
+        # Save the result image
+        cv2.imwrite('data/'+ self.image_name, result_image)
 
         #Write histograms
-        compute_and_save_histogram(input_image, result_image, 'data/hist_' + image_name.replace('jpg', 'png'))
-        os.rename('data/hist_' + image_name.replace('jpg', 'png'), 'data/histogram_' + image_name)
+        compute_and_save_histogram(input_image, result_image, 'data/hist_' + self.image_name.replace('jpg', 'png'))
+        os.rename('data/hist_' + self.image_name.replace('jpg', 'png'), 'data/histogram_' + self.image_name)
+
+        t = Timer(config.FILE_DELETE_TIME, self.delete_generated_files)
+        t.start()
 
         logging.info("COMPLETED")
 
-        return image_name
+        return self.image_name
 
     def create_filter(self, parameters):
         filter_function = Filters.__getattribute__(parameters['filter_name'])
         return filter_function(parameters)
+
+    def delete_generated_files(self):
+        os.remove('data/' + self.image_name)
+        os.remove('data/mask_' + self.image_name)
+        os.remove('data/histogram_' + self.image_name)
+        os.remove('data/dft_' + self.image_name)
 
 #
 # op = Operations()

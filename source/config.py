@@ -22,6 +22,7 @@ print(ROOT_DIR)
 DATA_PATH = ROOT_DIR + 'source/data/'
 UPLOADED_IMAGE_FILE_PATH = DATA_PATH + 'uploaded_image.jpg'
 RESULT_IMAGE_FILE_PATH = 'result_image.jpg'
+FILE_DELETE_TIME = 120.0
 
 print(RESULT_IMAGE_FILE_PATH)
 ############################################################
