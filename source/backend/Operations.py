@@ -55,8 +55,13 @@ class Operations:
         if req_parameters['method'] == 'statistical':
             input_params['image'] = input_image
             input_params['window'] = (input_params['window'], input_params['window'])
+            input_params['window_size'] = (input_params['window'], input_params['window'])
+            input_params['min_window_size'] = (3, 3)
             input_params['filt_func'] = Filters.__getattribute__(input_params['filter_name'])
-            result_image = StatisticalFilters.convolve(input_params)
+            if input_params['filter_name'] == "ADAPTIVE_MEDIAN_FILTER":
+                result_image = StatisticalFilters.adaptive_median_filter(input_params)
+            else:
+                result_image = StatisticalFilters.convolve(input_params)
         else:
 
             logging.info('apply filter function')

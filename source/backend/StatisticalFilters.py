@@ -143,6 +143,7 @@ def order_statistic_alpha_trimmed_filter(params):
 	"""
 	window = params["window"]
 	d = params["d"]
+	# print(d)
 
 	sorted_window = np.sort(window.flatten())
 	if d > len(sorted_window):
@@ -186,11 +187,14 @@ def adaptive_filter(params):
 
 def adaptive_median_filter(params):
 	image = params["image"]
-	m, n = params["window_size"]
+	window_size = params["window"]
+
+	m, n = window_size
 	u, v = image.shape[:2]
 
 	c_w = params["min_window_size"][0]
-	max_window = params["max_window_size"][0]
+	max_window = window_size[0]
+
 
 	# Add zero padding
 	pad = int((max(m, n) - 1) / 2)
