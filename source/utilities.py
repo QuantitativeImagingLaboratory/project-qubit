@@ -1,8 +1,9 @@
 import config
 import cv2
 import numpy as np
+import matplotlib
+matplotlib.use('Agg')
 from matplotlib import pyplot as plt
-
 
 def allowed_file(filename):
     return '.' in filename and \
@@ -76,6 +77,54 @@ def add_noise_to_image(image, noise_type, gauss_mean=50, gauss_sigma = 20, sp_am
     return  noisy_image
 
 
+def compute_and_save_histogram(image1, image2, filename):
+    fig, (ax1, ax2) = plt.subplots(2, sharex=True)
+
+    ax1.hist(image1.ravel(), bins=256, fc='k', ec='k')
+    ax1.set_title('Before')
+
+    ax2.hist(image2.ravel(), bins=256, fc='k', ec='k')
+    ax2.set_title('After')
+
+    fig.savefig(filename)
+
+
+def post_process_image(image):
+    """Post process the image to create a full contrast stretch of the image
+    takes as input:
+    image: the image obtained from the inverse fourier transform
+    return an image with full contrast stretch
+    -----------------------------------------------------
+    1. Full contrast stretch (fsimage)
+    2. take negative (255 - fsimage)
+    """
+    fcs_image = np.array(image, dtype=np.uint8)
+    hist = [0 for i in range(256)]
+    for i in fcs_image:
+        for j in i:
+            hist[j] += 1
+
+    K = 255
+    A = 0
+    B = 255
+
+    for i in range(256):
+        if hist[i] > 0:
+            A = i
+            break
+
+    for i in range(255, -1, -1):
+        if hist[i] > 0:
+            B = i
+            break
+
+    stretched_image = np.zeros(fcs_image.shape)
+    for i in range(stretched_image.shape[0]):
+        for j in range(stretched_image.shape[1]):
+            stretched_image[i, j] = round(((K - 1) / (B - A)) * (fcs_image[i, j] - A + 0.5))
+
+    return stretched_image
+
 # img2 = cv2.imread('data/board_gaussian.tif', 0)
 # mean, variance = estimate_params(img2)
 # print(mean, variance)
@@ -86,10 +135,13 @@ def add_noise_to_image(image, noise_type, gauss_mean=50, gauss_sigma = 20, sp_am
 #
 
 
-# img = cv2.imread('data/Lenna.png')
+# img = cv2.imread('data/pattern1.tif', 0)
+# img2 = cv2.imread('data/pattern1_gn.tif', 0)
 # if len(img.shape) == 3:
 #     img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 #
 # noisy_image = add_noise_to_image(img, 1, gauss_sigma=40)
 # plt.imshow(noisy_image)
 # plt.show()
+
+# compute_and_save_histogram(img, img2, 'as.png')

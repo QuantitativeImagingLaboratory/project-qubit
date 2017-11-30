@@ -2,8 +2,10 @@ import numpy as np
 import config
 import cv2
 import time
+import os
 import logging
 from backend import Filters, StatisticalFilters
+from utilities import *
 from matplotlib import pyplot as plt
 logging.basicConfig(level=config.logging_level, format='%(levelname)s - %(message)s')
 
@@ -31,15 +33,14 @@ class Operations:
 
     def apply_filter(self, req_parameters):
 
-        print('============')
-        print(req_parameters)
-        print('============')
+        logging.info('============')
+        logging.info(req_parameters)
+        logging.info('============')
         if 'filter_name' not in req_parameters['settings']:
             req_parameters['settings']['filter_name'] = req_parameters['settings']['filter_type']
 
         input_image = cv2.imread(config.UPLOADED_IMAGE_FILE_PATH, 0)
         image_shape = input_image.shape
-        print(image_shape, ' >> image shape')
 
         image_name = str(time.time()) + '.jpg'
         input_params = {}
@@ -60,20 +61,23 @@ class Operations:
 
             # 1 FFT
             fft_image = np.fft.fft2(input_image)  # nunpy
+
             # 2 shift the fft to center
             fft_shift = np.fft.fftshift(fft_image)
-            cv2.imwrite('data/dft_' + input_params['image_name'], fft_shift.real)
+
+            # Save
+            cv2.imwrite('data/dft_' + input_params['image_name'], post_process_image(np.log10(fft_shift.real)))
 
             input_params['image_dft'] = fft_shift
 
             # input_params['spectrum_noise_orgimg'] = 0.0001
-            filter = self.create_filter(input_params)
-            cv2.imwrite('data/mask_'+input_params['image_name'], filter.real)
+            created_filter = self.create_filter(input_params)
+            cv2.imwrite('data/mask_'+input_params['image_name'], created_filter.real)
 
             if 'WIEN' in input_params['filter_name'] or 'INVE' in input_params['filter_name']:
-                denoise_dft = filter
+                denoise_dft = created_filter
             else:
-                denoise_dft = fft_shift * filter
+                denoise_dft = fft_shift * created_filter
 
             # plt.imshow(denoise_dft.real)
             # plt.show()
@@ -85,7 +89,10 @@ class Operations:
 
         cv2.imwrite('data/'+ image_name, result_image)
 
-        # Needs to be completed
+        #Write histograms
+        compute_and_save_histogram(input_image, result_image, 'data/hist_' + image_name.replace('jpg', 'png'))
+        os.rename('data/hist_' + image_name.replace('jpg', 'png'), 'data/histogram_' + image_name)
+
         logging.info("COMPLETED")
 
         return image_name

@@ -170,7 +170,7 @@ def getNotchLocation(binary_image, innerbox):
         for v in range(cols):
             if binary_image[u][v] == 0 and not dft_centerbox(rows, cols, u, v, innerbox):
                 notchlist.append([u, v])
-    print(len(notchlist))
+    logging.info(len(notchlist))
     return notchlist
 
 def find_threshold(dft_img,order):
@@ -196,8 +196,7 @@ def notch_filter(params):
         :param params: dft of image , type of notch, diviation number,
         :return:
     """
-    print('Inside Notch')
-    print(params)
+    logging.info('Inside Notch')
     type = params['filter_name']
 
     #Generate binary image
