@@ -114,7 +114,51 @@
 
                             <!-- Generative Noise content -->
                             <div class="tab-pane fade" id="noise">
-                                <div id="noise-wrapper"></div>
+                                <div id="noise-wrapper">
+
+                                    <table class="spaced" width="40%">
+                                        <!-- Generative Blur Noise -->
+                                        <tr>
+                                            <td>
+                                                <input type="radio" id="generative_noise_option" name="noisechoice" value="generative_noise_option" checked="checked">
+                                                <label for="generative_noise_option">Generative noise</label>
+                                            </td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td><label for="generative_noise_cutoff">Cutoff</label></td>
+                                            <td><input type="number" id="generative_noise_cutoff" name="generative_noise_cutoff" min="1" max="10000" value="1"></td>
+                                        </tr>
+
+
+                                        <!-- Generative Blur Noise -->
+                                        <tr>
+                                            <td>
+                                                <input type="radio" id="generative_blur_option" name="noisechoice" value="generative_blur_option">
+                                                <label for="generative_blur_option">Generative blur</label>
+                                            </td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td><label for="generative_noise_k">K</label></td>
+                                            <td><input type="number" id="generative_noise_k" name="generative_noise_k" min="1" max="10000" value="1"></td>
+                                        </tr>
+
+                                        <!-- Upload noise -->
+                                        <tr>
+                                            <form id="browse_noise_form" enctype="multipart/form-data">
+                                                <td></td>
+                                                <td><input type="file" name="image"></td>
+                                                <td><input id="upload_noise_btn" type=button class="btn btn-primary" value="Save"></td>
+                                            </form>
+                                        </tr>
+                                    </table>
+
+                                </div>
                             </div>
                         </div>
                     </td>
@@ -131,7 +175,7 @@
 //    $("#display_wrapper").load('static/display.html');
     $("#statistical-wrapper").load('static/statistical.html');
     $("#periodic-wrapper").load('static/periodic.html');
-    $("#noise-wrapper").load('static/noise.html');
+//    $("#noise-wrapper").load('static/noise.html');
 
     $("#upload_btn").click(function()
     {
@@ -143,6 +187,25 @@
             contentType: false,
             success: function(response) {
                 $("#source_img").html(response);
+            },
+            error: function(xhr) {
+                alert("You didn't select an image!");
+            }
+        });
+    });
+
+
+    $("#upload_noise_btn").click(function()
+    {
+        $.ajax({
+            type: "POST",
+            url: "/save_noise",
+            data: new FormData($('#browse_noise_form')[0]),
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                alert("Noise has been saved!");
+//                $("#source_img").html(response);
             },
             error: function(xhr) {
                 alert("You didn't select an image!");

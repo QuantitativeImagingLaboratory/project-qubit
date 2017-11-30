@@ -40,6 +40,28 @@ def upload_image():
         return render_template('image.html', source=filename)
 
 
+@app.route('/save_noise', methods=['POST', 'GET'])
+def save_noise():
+    if 'image' not in request.files:
+        return redirect(request.url)
+
+    file = request.files['image']
+
+    print("Saving noise image in backend")
+    print(file, request.url)
+
+    if file.filename == '':
+        return redirect(request.url)
+
+    if file and webutils.allowed_file(file.filename):
+        # filename = file.filename
+        file.save(config.UPLOADED_NOISE_FILE_PATH)
+        # global upload
+        # upload = True
+        return "noise saved"
+
+
+
 @app.route('/render/<filename>')
 def send_image(filename):
     global upload
@@ -90,5 +112,5 @@ def process_image(json_dict):
 
 
 if __name__ == "__main__":
-    app.run(port=5009, debug=True)
+    app.run(port=4010, debug=True)
     # process_image()

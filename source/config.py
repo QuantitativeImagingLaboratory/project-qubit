@@ -25,6 +25,9 @@ UPLOADED_IMAGE_FILE_PATH = DATA_PATH + UPLOADED_IMAGE_FILE_NAME
 RESULT_IMAGE_FILE_PATH = 'result_image.jpg'
 FILE_DELETE_TIME = 1200.0
 
+UPLOADED_NOISE_FILE_PATH = DATA_PATH + 'uploaded_noise.jpg'
+
+
 print(RESULT_IMAGE_FILE_PATH)
 ############################################################
 ## Extensions
