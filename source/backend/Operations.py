@@ -122,8 +122,8 @@ class Operations:
 
     def delete_generated_files(self):
         os.remove('data/' + self.image_name)
-        os.remove('data/mask_' + self.image_name)
         os.remove('data/histogram_' + self.image_name)
+        os.remove('data/mask_' + self.image_name)
         os.remove('data/dft_' + self.image_name)
 
 #
