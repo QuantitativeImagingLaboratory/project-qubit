@@ -38,72 +38,30 @@ def upload_image():
 
 @app.route('/render/<filename>')
 def send_image(filename):
-    try:
-        return send_from_directory('data/', filename)
-    except FileNotFoundError:
-        return send_from_directory('data/', 'not_available.png')
+    return send_from_directory('data/', filename)
+
 
 @app.route('/display', methods=['POST', 'GET'])
 def change_display():
     if current_image == '':
-        print("There's no current image loaded")
         return redirect(request.url)
-
-    print("DISPLAY FLOW")
-    print(current_image)
-    print(request.json)
 
     if request.json['display'] != 'filtered':
         filename = '{}_{}'.format(request.json['display'], current_image)
     else:
         filename = current_image
+
+    if not os.path.isfile(os.path.join(config.DATA_PATH, filename)):
+        return render_template('image.html', source='not_available.png')
     return render_template('image.html', source=filename)
+
 
 @app.route('/apply', methods=['POST'])
 def apply_filter():
     image_path = process_image(request.json)
     global current_image
     current_image = image_path
-    print('>>> ', image_path)
-    # print(request.json)
-    #
-    #
-    #
-    # image = cv2.imread(config.UPLOADED_IMAGE_FILE_PATH)
-    # # params =
-    # # params['filter_shape'] = image.shape
-    #
-    # if request.json['method'] == 'statistical':
-    #     output_image = handle_statistical(params)
-    # elif request.json['method'] == 'periodic':
-    #     output_image = handle_periodic(params)
-    # elif request.json['method'] == 'noise':
-    #     output_image = handle_noise(params)
-    # else:
-    #     print("TRY AGAIN: NOT METHOD SPECIFY!")
-    #     return redirect(request.url)
-
-    return render_template('image.html', source = image_path)
-
-
-# # TODO move these functions to the backend
-# def handle_statistical(json):
-#     print("handle statistical:", json)
-#     return "Lenna.png"
-#
-# def handle_periodic(json):
-#     print('>>>>', json)
-#     func = json['settings']['bandreject_type']
-#
-#     # Filters.BR_IDEAL_FILTER()
-#     PeriodicFilters.band_reject_ideal_filter(json['settings'])
-#
-#     print("handle periodic:", json)
-#     return "Lenna.png"
-#
-# def handle_noise(json):
-#     print("handle noise:", json)
-#     return "Lenna.png"
+    return render_template('image.html', source=image_path)
 
 
 def process_image(json_dict):
@@ -118,5 +76,5 @@ def process_image(json_dict):
 
 
 if __name__ == "__main__":
-    app.run(port=8111, debug=True)
+    app.run(port=5009, debug=True)
     # process_image()

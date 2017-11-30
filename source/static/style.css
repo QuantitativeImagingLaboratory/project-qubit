@@ -51,4 +51,8 @@ img{
 }
 
 
+#tab-content{
+    min-height: 400px;
+}
+
 /*https://bootswatch.com/simplex/?optionsRadios=option1*/
