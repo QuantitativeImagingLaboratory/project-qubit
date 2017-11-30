@@ -183,8 +183,11 @@
             'display': null,
         };
 
+        // Little hack to get the filtered option every time
+        $("#displaychoice").val("filtered");
+
         data['method']  = $("#tab-content > .show").attr('id');
-        data['display'] = $($("#display_wrapper option:selected")[0]).val();
+        data['display'] = $("#displaychoice").val();
 
         switch(data['method'])
         {
