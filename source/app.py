@@ -51,8 +51,9 @@ def save_noise():
     print(file, request.url)
 
     data = dict(request.form.items())
-    data['cuttof'] = float(data['cuttof'])
-    data['kParam'] = float(data['kParam'])
+    data['cutoff'] = float(data['cuttof'])
+    data['k_param'] = float(data['kParam'])
+
 
     print(data) # {'noisechoice': 'generative_noise_option', 'kParam': 1.0, 'cuttof': 1.0}
 
@@ -62,6 +63,13 @@ def save_noise():
     if file and webutils.allowed_file(file.filename):
         # filename = file.filename
         file.save(config.UPLOADED_NOISE_FILE_PATH)
+        data["image"] = config.UPLOADED_NOISE_FILE_PATH
+
+        # Generate the noise
+        op = Operations()
+        op.generate_noise(data)
+
+
         # global upload
         # upload = True
         return "noise saved"

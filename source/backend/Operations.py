@@ -6,7 +6,7 @@ import cv2
 import time
 import os
 import logging
-from backend import Filters, StatisticalFilters
+from backend import Filters, StatisticalFilters, PeriodicFilters
 from utilities import *
 from matplotlib import pyplot as plt
 logging.basicConfig(level=config.logging_level, format='%(levelname)s - %(message)s')
@@ -130,6 +130,32 @@ class Operations:
         os.remove('data/histogram_' + self.image_name)
         os.remove('data/mask_' + self.image_name)
         os.remove('data/dft_' + self.image_name)
+
+    def generate_noise(self, params):
+        # Read image
+        image = cv2.imread(params["image"], 0)
+        params["image"] = image
+        params["filter_shape"] = image.shape
+
+        # Get DFT
+        fft_image = np.fft.fft2(image)  # nunpy
+        fft_shift = np.fft.fftshift(fft_image)
+        params["image_dft"] = fft_shift
+
+        # Genera noise
+        if params["noisechoice"] == "generative_noise_option":
+            noisy_dft = PeriodicFilters.generate_noise(params)
+        else:
+            noisy_dft = PeriodicFilters.generate_blur(params)
+
+        # Get image
+        f_ishift = np.fft.ifftshift(noisy_dft)
+        img_back = np.fft.ifft2(f_ishift).real
+        img_back = self.post_process_image(img_back)
+        cv2.imwrite(config.UPLOADED_NOISE_FILE_PATH, img_back)
+
+
+
 
 #
 # op = Operations()

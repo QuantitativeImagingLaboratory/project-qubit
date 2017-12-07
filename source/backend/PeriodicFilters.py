@@ -229,7 +229,7 @@ def gen_ring_noise_mask (dft_img, cutoff, width = 1):
     return noisyimg
 
 def generate_noise(params):
-    noise_mask = gen_ring_noise_mask(params['image_dft'], np.random.randint(20, 100), 1)
+    noise_mask = gen_ring_noise_mask(params['image_dft'], params["cutoff"], 1)
     noisy_dft = params['image_dft'] * noise_mask
     return noisy_dft
 
