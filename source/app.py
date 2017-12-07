@@ -50,6 +50,12 @@ def save_noise():
     print("Saving noise image in backend")
     print(file, request.url)
 
+    data = dict(request.form.items())
+    data['cuttof'] = float(data['cuttof'])
+    data['kParam'] = float(data['kParam'])
+
+    print(data) # {'noisechoice': 'generative_noise_option', 'kParam': 1.0, 'cuttof': 1.0}
+
     if file.filename == '':
         return redirect(request.url)
 
@@ -112,5 +118,5 @@ def process_image(json_dict):
 
 
 if __name__ == "__main__":
-    app.run(port=4010, debug=True)
+    app.run(port=4012, debug=True)
     # process_image()

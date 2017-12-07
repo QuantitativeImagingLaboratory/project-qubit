@@ -197,10 +197,18 @@
 
     $("#upload_noise_btn").click(function()
     {
+        var noiseChoice = $("input[name='noisechoice']:checked").val();
+        var cuttoff = parseFloat($('#generative_noise_cutoff').val());
+        var kParam = parseFloat($('#generative_noise_k').val());
+        var formData = new FormData($('#browse_noise_form')[0]);
+        formData.append('noisechoice', noiseChoice);
+        formData.append('cuttof', cuttoff);
+        formData.append('kParam', kParam);
+
         $.ajax({
             type: "POST",
             url: "/save_noise",
-            data: new FormData($('#browse_noise_form')[0]),
+            data: formData,
             processData: false,
             contentType: false,
             success: function(response) {
