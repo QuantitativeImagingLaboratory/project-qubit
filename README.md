@@ -3,6 +3,8 @@
 This repository contains the web application that we 
 built for the Digital Image Processing project.
 
+Our report can be found here: [Report](final_report.pdf)
+
 
 ## Requirements
 
